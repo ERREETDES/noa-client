@@ -27,7 +27,7 @@ The noa module can be run directly to execute a built-in example or manual opera
 - `--example <name>`: Run a built-in example (`analog_out`, `daq`, `digital_io`, `registers`, `stream_in`).
 
 ### Manual operations
-Multiple operations can specified in the same command.
+Multiple operations can specified in the same command. See `scripts/` for examples.
 
 ```
   --bit path            load a bitstream file
