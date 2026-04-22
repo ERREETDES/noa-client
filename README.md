@@ -1,6 +1,6 @@
 # NOA Python Client
 
-Programmatic interface for NOA hardware.
+Python client for the NOA platform. See [docs.rexys.io](https://docs.rexys.io) for more information.
 
 ## Python API Examples
 Example usage of the python API can be found in the `examples/` directory:
@@ -12,8 +12,8 @@ Example usage of the python API can be found in the `examples/` directory:
 | `stream_in` | Write to a stream input |
 | `daq` | Use the DAQ system |
 
-## CLI Usage
-The noa module can be run directly to run a built-in example or for manual operations.
+## CLI
+The noa module can be run directly to execute a built-in example or manual operations.
 
 `python -m noa.noa <addr> [options]`
 
@@ -28,4 +28,4 @@ The noa module can be run directly to run a built-in example or for manual opera
 
 ### Manual operations
 
-run `python -m noa.noa --help` for a list of manual operations. They can be combined together in a single command.
+run `python -m noa.noa --help` for a list of manual operations or the scripts directory for example usage. They can be combined together in a single command.
