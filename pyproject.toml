@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "noa-client"
+version = "0.1.0"
+description = "Client library for NOA"
+dependencies = [
+    "numpy",
+    "nats-py",
+    "attrs",
+    "cattrs",
+    "matplotlib",
+]
+
+[project.scripts]
+noa = "noa.noa:_main_entry"
