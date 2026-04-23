@@ -1,0 +1,5 @@
+numpy
+nats-py
+attrs
+cattrs
+matplotlib
