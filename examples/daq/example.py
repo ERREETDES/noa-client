@@ -18,7 +18,6 @@ async def update_plot(channel, data):
     x_values = range(len(data))
 
     if channel not in lines:
-        # Initialize the line. 'lines' returns a list, so we take the first element [0]
         lines[channel], = ax.plot(x_values, data, label=f"Channel {channel}")
         ax.relim()
         ax.autoscale_view()
