@@ -12,6 +12,7 @@ dependencies = [
     "attrs",
     "cattrs",
     "matplotlib",
+    "pyqtgraph",
 ]
 
 [project.scripts]
