@@ -1,41 +1,39 @@
 import queue
-import threading
+import multiprocessing
 
 import pyqtgraph as pg
 from pyqtgraph.Qt import QtCore
 
 class Graph:
     def __init__(self):
-        self.q = queue.Queue()
+        self.q = multiprocessing.Queue()
         self.current_data = {}
         self.curves = {}
         self.updated_channels = set()
-        self.thread = None
+        self.process = None
         self.app = None
-        self._stopping = False
+        self._stopping = multiprocessing.Event()
 
     def on_data(self, channel_idx, data):
         self.q.put((int(channel_idx), data))
 
     def show(self):
-        if self.thread is not None:
+        if self.process is not None and self.process.is_alive():
             return
 
-        self._stopping = False
-        self.thread = threading.Thread(target=self._run_loop, daemon=True)
-        self.thread.start()
+        self._stopping.clear()
+        self.process = None
+        process = multiprocessing.Process(target=self._run_loop, daemon=True)
+        process.start()
+        self.process = process
 
     def stop(self):
-        if self.thread is None:
+        if self.process is None:
             return
 
-        self._stopping = True
-        if self.app is not None:
-            connection_type = getattr(QtCore.Qt, "ConnectionType", QtCore.Qt).QueuedConnection
-            QtCore.QMetaObject.invokeMethod(self.app, "quit", connection_type)
-
-        if self.thread is not threading.current_thread():
-            self.thread.join()
+        self._stopping.set()
+        self.process.join()
+        self.process = None
 
     def _run_loop(self):
         pg.setConfigOptions(antialias=True)
@@ -58,7 +56,7 @@ class Graph:
         self.timer.start(0)
 
         try:
-            if not self._stopping:
+            if not self._stopping.is_set():
                 pg.exec()
         finally:
             self.timer.stop()
@@ -68,9 +66,13 @@ class Graph:
             self.plot = None
             self.curves = {}
             self.app = None
-            self.thread = None
+            self.process = None
 
     def _update_plot(self):
+        if self._stopping.is_set():
+            self.app.quit()
+            return
+
         new_channel_seen = False
         try:
             while 1:
