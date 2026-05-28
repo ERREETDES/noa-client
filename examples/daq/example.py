@@ -86,7 +86,6 @@ async def run(addr, bit, hwh, logger):
 
 if __name__ == "__main__":
     import sys
-    import logging
 
     addr = sys.argv[1]
     bit = "examples/daq/design_1_wrapper.bit"
